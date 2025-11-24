@@ -1,0 +1,1 @@
+## A simple terminal calculator that showcasing the foundamentals of C programming language principles
