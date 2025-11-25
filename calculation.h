@@ -1,5 +1,8 @@
+#pragma once
+
 #include <stdio.h>
 #include <stdbool.h>
+#include "optionHandler.h"
 
 typedef enum{
     CalcError = 0,
@@ -14,8 +17,7 @@ typedef enum
     sub,
     mul,
     divide,
-    ProgramExit,
-    enumLast = ProgramExit
+    enumLast = divide
 } Operation;
 
 typedef struct
@@ -25,11 +27,6 @@ typedef struct
     unsigned int operation;
     float result;
 } Calculation;
-
-void clearInputBuffer(void) {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
 
 bool requestNumber(const char* prompt, float* num)
 {
@@ -77,7 +74,6 @@ int performCalc(Calculation* calc) {
     case divide: if(calc->num2 == 0) {printf("Error: Division by 0\n"); return CalcError;}
             calc->result = calc->num1 / calc->num2;
             printf("%.2f / %.2f = %.2f\n", calc->num1, calc->num2, calc->result); break;
-    case ProgramExit: return CalcExit;
     default:    printf("Error: Invalid operation value: %d\n", calc->operation);
                 calc->result = 0; return CalcError;
     }

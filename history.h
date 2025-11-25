@@ -1,5 +1,8 @@
-#include <stdlib.h>
+#pragma once
 
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
 #include "calculation.h"
 
 typedef struct {
@@ -33,7 +36,7 @@ void freeHistory(History* history) {
     free(history);
 }
 
-bool addToHistory(History* history, Calculation calc) {
+bool addToHistory(History* history, const Calculation* calc) {
     if (history->count >= history->capacity) {
         unsigned int newCapacity = history->capacity * 2;
         Calculation* newCalcs =
@@ -48,7 +51,7 @@ bool addToHistory(History* history, Calculation calc) {
         history->capacity = newCapacity;
     }
 
-    history->calculations[history->count] = calc;
+    history->calculations[history->count] = &calc;
     history->count++;
     return true;
 }
