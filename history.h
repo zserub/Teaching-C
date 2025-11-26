@@ -1,8 +1,9 @@
 #pragma once
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
+
 #include "calculation.h"
 
 typedef struct {
@@ -51,7 +52,37 @@ bool addToHistory(History* history, const Calculation* calc) {
         history->capacity = newCapacity;
     }
 
-    history->calculations[history->count] = &calc;
+    history->calculations[history->count] = *calc;
     history->count++;
     return true;
+}
+
+void printHistory(const History* history) {
+    if (history == NULL || history->calculations == NULL) {
+        printf("History is empty.\n");
+        return;
+    }
+
+    printf("=== Calculation History ===\n");
+    printf("Total calculations: %u\n\n", history->count);
+
+    for (unsigned int i = 0; i < history->count; i++) {
+        const Calculation calc = history->calculations[i];
+        char operationSymbol;
+
+        switch (calc.operation)
+        {
+        case add: operationSymbol = '+'; break;
+        case sub: operationSymbol = '-'; break;
+        case mul: operationSymbol = '*'; break;
+        case divide: operationSymbol = '/'; break;
+        
+        default:
+            printf("Error: Unhandled exception, unkown operation\n");
+            operationSymbol = '?';
+            break;
+        }
+
+        printf("%u.) %.2f %c %.2f = %.3f \n", i+1, calc.num1, operationSymbol, calc.num2, calc.result);
+    }
 }
